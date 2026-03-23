@@ -13,16 +13,19 @@ body{
 
 button{
   font-size:1.4em;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 }
 
 h2{
   font-size:2em;
   margin-top:15px;
   margin-bottom:8px;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
 }
 
 p{
   line-height:1.5;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
 }
 
 @keyframes bgmove{
