@@ -1,47 +1,140 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #111;
-  color: white;
-  text-align: center;
+body{
+font-family:'Comic Sans MS',sans-serif;
+background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fbc2eb);
+background-size:400% 400%;
+animation:bgmove 12s infinite alternate;
+color:white;
+text-align:center;
+margin:0;
 }
 
-.screen {
-  display: none;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+@keyframes bgmove{
+0%{background-position:0% 50%;}
+100%{background-position:100% 50%;}
 }
 
-.active {
-  display: flex;
+h2{
+font-size:32px;
+margin-top:15px;
+text-shadow:2px 2px 6px rgba(0,0,0,0.3);
 }
 
-.card {
-  background: #1c1c1c;
-  padding: 30px;
-  border-radius: 20px;
-  width: 80%;
-  max-width: 400px;
+#main{
+display:flex;
+justify-content:center;
+align-items:flex-start;
+gap:30px;
+margin-top:15px;
 }
 
-button {
-  margin-top: 15px;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 10px;
-  background: #ff4d6d;
-  color: white;
-  font-size: 16px;
+#cameraBlock{
+display:flex;
+flex-direction:column;
+align-items:center;
 }
 
-#countdown {
-  position: absolute;
-  font-size: 120px;
-  font-weight: bold;
+#cameraContainer{
+position:relative;
+background:white;
+padding:12px;
+border-radius:16px;
+box-shadow:0 6px 18px rgba(0,0,0,0.25);
 }
 
-video {
-  width: 100%;
+video{
+width:760px;
+border-radius:12px;
+filter:grayscale(100%);
+}
+
+#countdown{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:120px;
+font-weight:bold;
+color:white;
+text-shadow:4px 4px 15px black;
+}
+
+#controls{
+margin-top:15px;
+}
+
+button{
+border:none;
+padding:11px 20px;
+margin:6px;
+font-size:16px;
+font-weight:bold;
+border-radius:40px;
+cursor:pointer;
+color:white;
+transition:0.25s;
+box-shadow:0 5px 12px rgba(0,0,0,0.25);
+}
+
+button:hover{
+transform:scale(1.06);
+}
+
+.startBtn{background:#2ecc71;}
+.retakeBtn{background:#f39c12;}
+.printBtn{background:#e74c3c;}
+
+#strip{
+width:175px;
+background:white;
+padding:10px;
+border-radius:6px;
+box-shadow:0 6px 18px rgba(0,0,0,0.25);
+color:black;
+font-family:monospace;
+font-size:10px;
+text-align:center;
+}
+
+#photos img{
+width:100%;
+margin-bottom:2px;
+filter:grayscale(100%);
+}
+
+.receiptHeader{
+margin-bottom:6px;
+}
+
+.receiptFooter{
+margin-top:6px;
+}
+
+@media print{
+
+#cameraBlock,
+h2{
+display:none;
+}
+
+body{
+background:white;
+}
+
+#strip{
+width:80mm;
+margin:auto;
+padding:0;
+box-shadow:none;
+}
+
+#photos img{
+width:100%;
+margin:0;
+}
+
+@page{
+size:80mm auto;
+margin:0;
+}
+
 }
