@@ -57,16 +57,21 @@ document.getElementById(id).classList.add("active")
 }
 
 function setRandomCaption(){
+
   const random = captions[Math.floor(Math.random() * captions.length)]
-  const el = document.getElementById("randomCaption")
-  if(el){
-    el.innerText = `"${random}"`
+  const el1 = document.getElementById("randomCaption")
+
+  if(el1){
+    el1.innerText = `"${random}"`
+  }
 
   const random2 = captions2[Math.floor(Math.random() * captions2.length)]
-  const el = document.getElementById("randomCaption2")
-  if(el){
-    el.innerText = `"${random2}"`
+  const el2 = document.getElementById("randomCaption2")
+
+  if(el2){
+    el2.innerText = `"${random2}"`
   }
+
 }
 
 function goInstruction(){
