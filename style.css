@@ -45,6 +45,22 @@ gap:30px;
 margin-top:15px;
 }
 
+#startScreen.active ~ #sessionTimer{
+display:none;
+}
+
+#sessionTimer{
+position:fixed;
+top:15px;
+right:20px;
+background:rgba(0,0,0,0.6);
+padding:8px 14px;
+border-radius:20px;
+font-weight:bold;
+font-size:18px;
+z-index:9999;
+}
+
 #cameraBlock{
 display:flex;
 flex-direction:column;
