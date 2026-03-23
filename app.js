@@ -3,16 +3,16 @@ let strip = document.getElementById("photos")
 let counter = document.getElementById("countdown")
 let retakeBtn = document.getElementById("retakeBtn")
 
-const sessionDuration = 150000 // in ms
+const sessionDuration = 120000 // in ms
 const photoDelay = 7 //in sec
-
+let retakeLeft=2
 
 let sessionStartTime = null
 let animationFrame = null
 
 let capturing=false
 let isSessionActive=false
-let retakeLeft=2
+
 
 let sessionTime = 180
 let timerInterval = null
