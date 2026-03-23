@@ -32,33 +32,22 @@ const captions2 = [
 ]
 
 function startSessionTimer(){
-
   clearInterval(timerInterval)
-
   sessionTime = 300 // 5 menit
-
   updateTimerUI()
-
   timerInterval = setInterval(()=>{
-
     sessionTime--
-
     updateTimerUI()
-
     if(sessionTime <= 0){
       clearInterval(timerInterval)
       alert("Waktu habis")
       stopSessionForce()
     }
-
   },1000)
-
 }
 
 function updateTimerUI(){
-
   const el = document.getElementById("sessionTimer")
-
   const min = Math.floor(sessionTime / 60).toString().padStart(2,'0')
   const sec = (sessionTime % 60).toString().padStart(2,'0')
   if(sessionTime <= 30){
@@ -68,11 +57,9 @@ function updateTimerUI(){
 }
 
 function stopSessionForce(){
-
   isSessionActive = false
   capturing = false
   counter.innerText = ""
-
   showScreen("startScreen")
 }
 
