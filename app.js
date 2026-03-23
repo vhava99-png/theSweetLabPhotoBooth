@@ -1,133 +1,124 @@
-let sessionTime = 300
-let sessionTimer
+let video = document.getElementById("video")
+let photosDiv = document.getElementById("photos")
+let countdownEl = document.getElementById("countdown")
 
-// SCREEN SWITCH
-function showScreen(id){
-  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"))
-  document.getElementById(id).classList.add("active")
+let photos = []
+let retriesLeft = 2
+
+// 🎥 START CAMERA
+navigator.mediaDevices.getUserMedia({video:true})
+.then(stream=>{
+video.srcObject = stream
+})
+
+// 🎲 RANDOM CAPTION
+const captions = [
+"Life is sweeter with you 🍰",
+"Sweet moments, sweet memories",
+"Happiness is homemade",
+"Bite, smile, repeat 😄",
+"Sugar rush incoming!",
+"Dessert first, always",
+"Good vibes & good bites",
+"Made with love 💕",
+"Stay sweet!",
+"Sweet day, sweet life"
+]
+
+function setRandomCaption(){
+const random = captions[Math.floor(Math.random()*captions.length)]
+document.getElementById("randomCaption").innerText = `"${random}"`
 }
 
-// SIMULASI PAYMENT
-function fakePayment(){
-  showScreen("instructionScreen")
-  startSessionTimer()
+// ⏱ COUNTDOWN 7 DETIK
+async function countdown(){
+for(let i=7;i>0;i--){
+countdownEl.innerText = i
+
+if(i<=3){
+beep()
 }
 
-// TIMER 5 MENIT
-function startSessionTimer(){
-  sessionTime = 300
-
-  sessionTimer = setInterval(()=>{
-    sessionTime--
-    if(sessionTime <= 0){
-      alert("Waktu habis")
-      endSession()
-    }
-  },1000)
+await delay(1000)
+}
+countdownEl.innerText=""
 }
 
-// START SESSION
-async function startSession(){
-  showScreen("cameraScreen")
-  await startCamera()
-  startCapture()
+// 🔊 BEEP
+function beep(){
+const ctx = new (window.AudioContext||window.webkitAudioContext)()
+const osc = ctx.createOscillator()
+const gain = ctx.createGain()
+
+osc.connect(gain)
+gain.connect(ctx.destination)
+
+osc.frequency.value = 800
+osc.start()
+
+gain.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+0.2)
+osc.stop(ctx.currentTime+0.2)
 }
 
-// START CAMERA
-async function startCamera(){
-  const stream = await navigator.mediaDevices.getUserMedia({video:true})
-  document.getElementById("video").srcObject = stream
-}
-
-// CAPTURE FLOW
+// 📸 CAPTURE
 async function startCapture(){
 
-  for(let i=0;i<3;i++){
-    await runCountdown()
-    flashEffect()
+photos=[]
+photosDiv.innerHTML=""
 
-    console.log("Photo taken", i+1)
+for(let i=0;i<3;i++){
 
-    await delay(1000)
-  }
+await countdown()
 
-  alert("Selesai!")
-  endSession()
+let canvas=document.createElement("canvas")
+canvas.width=video.videoWidth
+canvas.height=video.videoHeight
+canvas.getContext("2d").drawImage(video,0,0)
+
+let img=canvas.toDataURL("image/png")
+photos.push(img)
+
+let image=document.createElement("img")
+image.src=img
+photosDiv.appendChild(image)
+
+await delay(500)
+}
 }
 
-// ⏱ COUNTDOWN 7 DETIK + BEEP DI 3 DETIK TERAKHIR
-async function runCountdown(){
-  const el = document.getElementById("countdown")
+// 🔁 RETAKE
+function retake(){
 
-  for(let i=7;i>0;i--){
-    el.innerText = i
-
-    // 🔊 bunyi di 3 detik terakhir
-    if(i <= 3){
-      playBeep()
-    }
-
-    await delay(1000)
-  }
-
-  el.innerText = ""
+if(retriesLeft<=0){
+alert("Kesempatan habis")
+return
 }
 
-// 🔊 SOUND BEEP
-function playBeep(){
-  const ctx = new (window.AudioContext || window.webkitAudioContext)()
-
-  const oscillator = ctx.createOscillator()
-  const gain = ctx.createGain()
-
-  oscillator.type = "sine"
-  oscillator.frequency.setValueAtTime(800, ctx.currentTime)
-
-  oscillator.connect(gain)
-  gain.connect(ctx.destination)
-
-  oscillator.start()
-  gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.2)
-
-  oscillator.stop(ctx.currentTime + 0.2)
+retriesLeft--
+startCapture()
 }
 
-// FLASH EFFECT
-function flashEffect(){
-  const flash = document.createElement("div")
-  flash.style.position = "fixed"
-  flash.style.top = 0
-  flash.style.left = 0
-  flash.style.width = "100%"
-  flash.style.height = "100%"
-  flash.style.background = "white"
-  document.body.appendChild(flash)
+// 🖨 PRINT
+function printStrip(){
 
-  setTimeout(()=>flash.remove(),100)
+const confirmPrint = confirm("Apakah kamu sudah puas dengan hasilnya?")
+if(!confirmPrint) return
+
+setRandomCaption()
+
+setTimeout(()=>{
+window.print()
+},300)
 }
 
-// STOP BUTTON
-document.getElementById("stopBtn").addEventListener("click", ()=>{
-  const confirmStop = confirm("Apakah kamu yakin ingin berhenti?")
-  if(confirmStop){
-    endSession()
-  }
-})
-
-// END SESSION
-function endSession(){
-  clearInterval(sessionTimer)
-  showScreen("qrScreen")
+// 🕒 TIME
+function updateTime(){
+let now = new Date()
+document.getElementById("datetime").innerText = now.toLocaleString()
 }
+setInterval(updateTime,1000)
 
-// HELPER
+// ⏳ DELAY
 function delay(ms){
-  return new Promise(r=>setTimeout(r,ms))
+return new Promise(res=>setTimeout(res,ms))
 }
-
-// 🎮 BLUETOOTH BUTTON (VOLUME)
-document.addEventListener("keydown", function(e){
-  if(e.key === "VolumeUp" || e.key === "VolumeDown" || e.keyCode === 24 || e.keyCode === 25){
-    fakePayment()
-  }
-})
