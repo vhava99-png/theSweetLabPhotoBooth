@@ -1,55 +1,102 @@
-body{
-margin:0;
-font-family:Arial;
-background:#111;
-color:white;
-text-align:center;
-}
+/* MAIN LAYOUT */
 
-.screen{
-display:none;
-height:100vh;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-}
-
-.active{
+#main{
 display:flex;
+justify-content:center;
+align-items:flex-start;
+gap:30px;
+margin-top:15px;
 }
 
-.card{
-background:#222;
-padding:25px;
-border-radius:20px;
-width:80%;
-max-width:400px;
+/* CAMERA BLOCK */
+
+#cameraBlock{
+display:flex;
+flex-direction:column;
+align-items:center;
 }
 
-button{
-margin-top:10px;
-padding:12px;
-border:none;
-border-radius:10px;
-background:#ff4d6d;
-color:white;
-font-size:16px;
-}
+/* CAMERA */
 
 #cameraContainer{
 position:relative;
+background:white;
+padding:12px;
+border-radius:16px;
+box-shadow:0 6px 18px rgba(0,0,0,0.25);
 }
 
 video{
-width:90vw;
-max-width:600px;
-border-radius:10px;
+width:760px;
+border-radius:12px;
+filter:grayscale(100%);
 }
+
+/* COUNTDOWN */
 
 #countdown{
 position:absolute;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-font-size:100px;
+font-size:120px;
+font-weight:bold;
+color:white;
+text-shadow:4px 4px 15px black;
+pointer-events:none;
+}
+
+/* BUTTONS */
+
+#controls{
+margin-top:15px;
+}
+
+button{
+border:none;
+padding:11px 20px;
+margin:6px;
+font-size:16px;
+font-weight:bold;
+border-radius:40px;
+cursor:pointer;
+color:white;
+transition:0.25s;
+box-shadow:0 5px 12px rgba(0,0,0,0.25);
+}
+
+button:hover{
+transform:scale(1.06);
+}
+
+.startBtn{background:#2ecc71;}
+.retakeBtn{background:#f39c12;}
+.printBtn{background:#e74c3c;}
+
+/* STRIP */
+
+#strip{
+width:175px;
+background:white;
+padding:10px;
+border-radius:6px;
+box-shadow:0 6px 18px rgba(0,0,0,0.25);
+color:black;
+font-family:monospace;
+font-size:10px;
+text-align:center;
+}
+
+#photos img{
+width:100%;
+margin-bottom:2px;
+filter:grayscale(100%);
+}
+
+.receiptHeader{
+margin-bottom:6px;
+}
+
+.receiptFooter{
+margin-top:6px;
 }
