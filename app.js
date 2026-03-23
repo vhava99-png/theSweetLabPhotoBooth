@@ -126,7 +126,6 @@ return
 
 retakeLeft--
 updateRetakeUI()
-setRandomCaption() 
 startCapture()
 }
 
