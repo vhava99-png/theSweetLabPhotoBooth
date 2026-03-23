@@ -3,6 +3,10 @@ let strip = document.getElementById("photos")
 let counter = document.getElementById("countdown")
 let retakeBtn = document.getElementById("retakeBtn")
 
+let sessionDuration = 180000 // 3 menit dalam ms
+let sessionStartTime = null
+let animationFrame = null
+
 let capturing=false
 let isSessionActive=false
 let retakeLeft=2
@@ -32,70 +36,80 @@ const captions2 = [
 ]
 
 function startSessionTimer(){
-  clearInterval(timerInterval)
-  sessionTime = 12 // 3 menit
-  updateTimerUI()
-  timerInterval = setInterval(()=>{
-    sessionTime--
-    updateTimerUI()
-    updateProgress() 
-    if(sessionTime <= 0){
-      clearInterval(timerInterval)
-      alert("Waktu habis")
-      stopSessionForce()
-    }
-  },1000)
+  cancelAnimationFrame(animationFrame)
+  sessionStartTime = Date.now()
+  runTimer()
 }
 
-function updateTimerUI(){
+function runTimer(){
+
+  const now = Date.now()
+  const elapsed = now - sessionStartTime
+  const remaining = sessionDuration - elapsed
+
   const el = document.getElementById("sessionTimer")
-  const min = Math.floor(sessionTime / 60).toString().padStart(2,'0')
-  const sec = (sessionTime % 60).toString().padStart(2,'0')
-  if(sessionTime <= 30){
-  el.style.background = "rgba(231,76,60,0.9)"
-}
-  el.innerText = `${min}:${sec}`
+
+  if(el){
+    const sec = Math.max(0, Math.floor(remaining / 1000))
+    const min = Math.floor(sec / 60).toString().padStart(2,'0')
+    const s = (sec % 60).toString().padStart(2,'0')
+
+    el.innerText = `${min}:${s}`
+  }
+
+  updateProgressSmooth(elapsed)
+
+  if(remaining <= 0){
+    cancelAnimationFrame(animationFrame)
+    alert("Waktu habis")
+    stopSessionForce()
+    return
+  }
+
+  animationFrame = requestAnimationFrame(runTimer)
 }
 
-function updateProgress(){
+function updateProgressSmooth(elapsed){
 
-  const total = 12 // total detik
-  const percent = (1 - sessionTime / total) * 100
+  const percent = Math.min(1, elapsed / sessionDuration) * 100
 
   const top = document.getElementById("progressTop")
   const right = document.getElementById("progressRight")
   const bottom = document.getElementById("progressBottom")
   const left = document.getElementById("progressLeft")
 
-  // tiap sisi 25%
+  // RESET dulu
+  top.style.width = "0%"
+  right.style.height = "0%"
+  bottom.style.width = "0%"
+  left.style.height = "0%"
+
   if(percent <= 25){
-    top.style.width = percent * 4 + "%"
+    // kiri atas → kanan atas
+    top.style.width = (percent / 25) * 100 + "%"
   }
   else if(percent <= 50){
     top.style.width = "100%"
-    right.style.height = (percent - 25) * 4 + "%"
+    right.style.height = ((percent - 25) / 25) * 100 + "%"
   }
   else if(percent <= 75){
     top.style.width = "100%"
     right.style.height = "100%"
-    bottom.style.width = (percent - 50) * 4 + "%"
+    bottom.style.width = ((percent - 50) / 25) * 100 + "%"
   }
   else{
     top.style.width = "100%"
     right.style.height = "100%"
     bottom.style.width = "100%"
-    left.style.height = (percent - 75) * 4 + "%"
+    left.style.height = ((percent - 75) / 25) * 100 + "%"
   }
 
-  // 🎨 WARNA BERUBAH
-  let color = "#2ecc71" // hijau
+  // 🎨 WARNA GRADUAL (HIJAU → MERAH)
+  const r = Math.floor(46 + (231-46) * (percent/100))
+  const g = Math.floor(204 - (204-76) * (percent/100))
+  const b = Math.floor(113 - (113-60) * (percent/100))
 
-  if(percent > 60){
-    color = "#e74c3c" // merah
-  }
-  else if(percent > 30){
-    color = "#f39c12" // kuning/orange
-  }
+  const color = `rgb(${r},${g},${b})`
 
   top.style.background = color
   right.style.background = color
@@ -268,13 +282,7 @@ if(!confirm("Yakin berhenti?")) return
 isSessionActive=false
 capturing=false
 counter.innerText=""
-clearInterval(timerInterval)
-sessionTime = 180
-document.getElementById("sessionTimer").innerText = "05:00"
-document.getElementById("progressTop").style.width = "0%"
-document.getElementById("progressRight").style.height = "0%"
-document.getElementById("progressBottom").style.width = "0%"
-document.getElementById("progressLeft").style.height = "0%"
+cancelAnimationFrame(animationFrame)
 
 showScreen("startScreen")
 }
