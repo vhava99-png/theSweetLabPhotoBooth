@@ -92,11 +92,15 @@ height:0%;
 }
 #progressBottom{
 bottom:0;
+right:0;
+left:auto;
 width:0%;
 }
 
 #progressLeft{
 left:0;
+bottom:0;
+top:auto;
 height:0%;
 }
 #cameraBlock{
