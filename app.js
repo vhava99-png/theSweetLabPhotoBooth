@@ -7,8 +7,16 @@ let retriesLeft = 2
 
 // SCREEN SWITCH
 function showScreen(id){
-  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"))
-  document.getElementById(id).classList.add("active")
+  const screens = document.querySelectorAll(".screen")
+
+  screens.forEach(function(s){
+    s.classList.remove("active")
+  })
+
+  const target = document.getElementById(id)
+  if(target){
+    target.classList.add("active")
+  }
 }
 
 // NAVIGATION
