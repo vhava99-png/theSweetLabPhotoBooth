@@ -3,7 +3,12 @@ let strip = document.getElementById("photos")
 let counter = document.getElementById("countdown")
 let retakeBtn = document.getElementById("retakeBtn")
 
-let sessionDuration = 180000 // 3 menit dalam ms
+const CONFIG = {
+  sessionDuration: 150000, // in ms
+  maxRetake: 2,
+  photoDelay: 7 //in sec
+}
+
 let sessionStartTime = null
 let animationFrame = null
 
@@ -210,7 +215,7 @@ for(let i=0;i<MAX_PHOTOS;i++){
 
 if(!isSessionActive) break
 
-await countdown(7)
+await countdown(photoDelay)
 
 if(!isSessionActive) break
 
