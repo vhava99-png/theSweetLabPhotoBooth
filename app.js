@@ -72,7 +72,13 @@ function startSession(){
 showScreen("cameraScreen")
 startCamera()
 resetSession()
-startCapture()
+ updateRetakeUI()
+  updateDateTime()
+
+  // 🔥 AUTO START FOTO
+  setTimeout(()=>{
+    startCapture()
+  }, 500) // kasih delay biar camera ready
 }
 
 // CAMERA
