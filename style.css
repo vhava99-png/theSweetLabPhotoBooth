@@ -87,6 +87,24 @@ font-size:10px;
 text-align:center;
 }
 
+@media print {
+
+body * {
+  visibility: hidden;
+}
+
+#strip, #strip * {
+  visibility: visible;
+}
+
+#strip {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 80mm;
+}
+
+}
 #photos img{
 width:100%;
 margin-bottom:2px;
