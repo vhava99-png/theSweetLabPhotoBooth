@@ -119,6 +119,7 @@ function stopSessionForce(){
   isSessionActive = false
   capturing = false
   counter.innerText = ""
+  resetProgressBar()
   showScreen("startScreen")
 }
 
