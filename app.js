@@ -5,41 +5,70 @@ const counter = document.getElementById("countdown")
 let photos = []
 let capturing = false
 let retakeCount = 0
+let isSessionActive = false
 
-const MAX_PHOTOS = 3        // ✅ sesuai requirement kamu
+const MAX_PHOTOS = 3
 const MAX_RETAKE = 2
 
+// =======================
 // 🎥 CAMERA
-navigator.mediaDevices.getUserMedia({ video: true })
-.then(stream => {
-  video.srcObject = stream
-})
-.catch(() => {
-  alert("Camera tidak tersedia")
-})
+// =======================
+async function startCamera(){
+  try{
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true })
+    video.srcObject = stream
+  }catch(e){
+    alert("Camera tidak tersedia")
+  }
+}
 
-// ⏱ INIT TIME
-updateDateTime()
+// =======================
+// 📺 SCREEN CONTROL
+// =======================
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(s=>{
+    s.classList.remove("active")
+  })
 
-// 📸 START CAPTURE
+  const target = document.getElementById(id)
+  if(target){
+    target.classList.add("active")
+  }
+}
+
+// =======================
+// ▶️ START SESSION
+// =======================
+function startSession(){
+  showScreen("cameraScreen")
+  startCamera()
+}
+
+// =======================
+// 📸 CAPTURE FLOW
+// =======================
 async function startCapture(){
 
   if(capturing) return
 
   capturing = true
+  isSessionActive = true
+
   photos = []
   strip.innerHTML = ""
-
   updateDateTime()
 
-  for(let i=0; i<MAX_PHOTOS; i++){
+  for(let i=0;i<MAX_PHOTOS;i++){
 
-    await countdown(7) // ✅ 7 detik
+    if(!isSessionActive) break
+
+    await countdown(7)
+
+    if(!isSessionActive) break
 
     const img = capture()
 
     photos.push(img)
-
     addPreview(img)
 
     await delay(500)
@@ -48,7 +77,9 @@ async function startCapture(){
   capturing = false
 }
 
+// =======================
 // 📷 CAPTURE IMAGE
+// =======================
 function capture(){
 
   const canvas = document.createElement("canvas")
@@ -76,7 +107,9 @@ function capture(){
   return canvas.toDataURL("image/png")
 }
 
-// ⚡ FLASH EFFECT
+// =======================
+// ⚡ FLASH
+// =======================
 function flash(){
 
   const flash = document.createElement("div")
@@ -92,12 +125,12 @@ function flash(){
 
   document.body.appendChild(flash)
 
-  setTimeout(() => {
-    flash.remove()
-  }, 120)
+  setTimeout(()=>flash.remove(),120)
 }
 
-// ➕ ADD PREVIEW
+// =======================
+// ➕ PREVIEW
+// =======================
 function addPreview(photo){
 
   const img = document.createElement("img")
@@ -106,7 +139,9 @@ function addPreview(photo){
   strip.appendChild(img)
 }
 
+// =======================
 // 🔁 RETAKE
+// =======================
 function retake(){
 
   if(retakeCount >= MAX_RETAKE){
@@ -122,7 +157,9 @@ function retake(){
   startCapture()
 }
 
-// 🖨 PRINT
+// =======================
+// 🖨 PRINT (FIXED)
+// =======================
 function printStrip(){
 
   const confirmPrint = confirm("Apakah kamu sudah puas dengan hasilnya?")
@@ -130,26 +167,33 @@ function printStrip(){
 
   setRandomCaption()
 
-  setTimeout(() => {
+  setTimeout(()=>{
     window.print()
-  }, 300)
+  },300)
 }
 
-// ⏱ COUNTDOWN (7 DETIK + BEEP)
+// =======================
+// ⏱ COUNTDOWN (STOP SAFE)
+// =======================
 function countdown(sec){
 
-  return new Promise(resolve => {
+  return new Promise(resolve=>{
 
     let i = sec
     counter.innerText = i
 
-    const timer = setInterval(() => {
+    const timer = setInterval(()=>{
+
+      if(!isSessionActive){
+        clearInterval(timer)
+        counter.innerText = ""
+        resolve()
+        return
+      }
 
       i--
-
       counter.innerText = i
 
-      // 🔊 beep di 3 detik terakhir
       if(i <= 3 && i > 0){
         beep()
       }
@@ -160,13 +204,15 @@ function countdown(sec){
         resolve()
       }
 
-    }, 1000)
+    },1000)
 
   })
 
 }
 
-// 🔊 BEEP SOUND
+// =======================
+// 🔊 BEEP
+// =======================
 function beep(){
 
   const ctx = new (window.AudioContext || window.webkitAudioContext)()
@@ -185,29 +231,47 @@ function beep(){
   osc.stop(ctx.currentTime + 0.2)
 }
 
+// =======================
+// ⛔ STOP SESSION (FIXED)
+// =======================
+function stopSession(){
+
+  const confirmStop = confirm("Apakah kamu yakin ingin berhenti?")
+  if(!confirmStop) return
+
+  isSessionActive = false
+  capturing = false
+
+  counter.innerText = ""
+
+  showScreen("startScreen")
+}
+
+// =======================
 // 🎲 RANDOM CAPTION
+// =======================
 const captions = [
-  "Life is sweeter with you 🍰",
-  "Sweet moments, sweet memories",
-  "Happiness is homemade",
-  "Bite, smile, repeat 😄",
-  "Sugar rush incoming!",
-  "Dessert first, always",
-  "Good vibes & good bites",
-  "Made with love 💕",
-  "Stay sweet!",
-  "Sweet day, sweet life"
+"Life is sweeter with you 🍰",
+"Sweet moments, sweet memories",
+"Happiness is homemade",
+"Bite, smile, repeat 😄",
+"Sugar rush incoming!",
+"Dessert first, always",
+"Good vibes & good bites",
+"Made with love 💕"
 ]
 
 function setRandomCaption(){
-  const random = captions[Math.floor(Math.random() * captions.length)]
+  const random = captions[Math.floor(Math.random()*captions.length)]
   const el = document.getElementById("randomCaption")
   if(el){
     el.innerText = `"${random}"`
   }
 }
 
-// 🕒 DATETIME
+// =======================
+// 🕒 TIME
+// =======================
 function updateDateTime(){
 
   const el = document.getElementById("datetime")
@@ -215,10 +279,7 @@ function updateDateTime(){
 
   const now = new Date()
 
-  const months = [
-    "Jan","Feb","Mar","Apr","May","Jun",
-    "Jul","Aug","Sep","Oct","Nov","Dec"
-  ]
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
 
   const month = months[now.getMonth()]
   const year = now.getFullYear()
@@ -226,10 +287,12 @@ function updateDateTime(){
   const hours = now.getHours().toString().padStart(2,'0')
   const mins = now.getMinutes().toString().padStart(2,'0')
 
-  el.innerText = `${month} ${year}  |  ${hours}:${mins}`
+  el.innerText = `${month} ${year} | ${hours}:${mins}`
 }
 
+// =======================
 // ⏳ DELAY
+// =======================
 function delay(ms){
-  return new Promise(res => setTimeout(res, ms))
+  return new Promise(res=>setTimeout(res,ms))
 }
