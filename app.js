@@ -72,6 +72,7 @@ function startSession(){
 showScreen("cameraScreen")
 startCamera()
 resetSession()
+startCapture()
 }
 
 // CAMERA
