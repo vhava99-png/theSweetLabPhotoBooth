@@ -51,16 +51,52 @@ display:none;
 
 #sessionTimer{
 position:fixed;
-top:15px;
-right:20px;
+top:10px;
+left:50%;
+transform:translateX(-50%);
 background:rgba(0,0,0,0.6);
-padding:8px 14px;
+padding:8px 16px;
 border-radius:20px;
 font-weight:bold;
-font-size:18px;
+font-size:20px;
 z-index:9999;
 }
 
+/* BASE BAR */
+#progressTop,
+#progressBottom{
+position:fixed;
+left:0;
+height:6px;
+background:#2ecc71;
+z-index:9998;
+}
+#progressLeft,
+#progressRight{
+position:fixed;
+top:0;
+width:6px;
+background:#2ecc71;
+z-index:9998;
+}
+/* POSISI */
+#progressTop{
+top:0;
+width:0%;
+}
+#progressRight{
+right:0;
+height:0%;
+}
+#progressBottom{
+bottom:0;
+width:0%;
+}
+
+#progressLeft{
+left:0;
+height:0%;
+}
 #cameraBlock{
 display:flex;
 flex-direction:column;
