@@ -49,19 +49,6 @@ margin-top:15px;
 display:none;
 }
 
-#sessionTimer{
-position:fixed;
-top:10px;
-left:50%;
-transform:translateX(-50%);
-background:rgba(0,0,0,0.6);
-padding:8px 16px;
-border-radius:20px;
-font-weight:bold;
-font-size:20px;
-z-index:9999;
-}
-
 /* BASE BAR */
 #progressTop,
 #progressBottom{
