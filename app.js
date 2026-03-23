@@ -62,14 +62,14 @@ function setRandomCaption(){
   const el1 = document.getElementById("randomCaption")
 
   if(el1){
-    el1.innerText = `"${random}"`
+    el1.innerText = random
   }
 
   const random2 = captions2[Math.floor(Math.random() * captions2.length)]
   const el2 = document.getElementById("randomCaption2")
 
   if(el2){
-    el2.innerText = `"${random2}"`
+    el2.innerText = random2
   }
 
 }
