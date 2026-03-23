@@ -95,6 +95,9 @@ function updateProgressSmooth(elapsed){
   }
 if(percent > 90){
   top.style.opacity = (Math.sin(Date.now()/100) > 0 ? 1 : 0.3)
+  right.style.opacity = (Math.sin(Date.now()/100) > 0 ? 1 : 0.3)
+  bottom.style.opacity = (Math.sin(Date.now()/100) > 0 ? 1 : 0.3)
+  left.style.opacity = (Math.sin(Date.now()/100) > 0 ? 1 : 0.3)
 }
   // 🎨 WARNA GRADUAL (HIJAU → MERAH)
   const r = Math.floor(46 + (231-46) * (percent/100))
