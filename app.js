@@ -3,7 +3,7 @@ let strip = document.getElementById("photos")
 let counter = document.getElementById("countdown")
 let retakeBtn = document.getElementById("retakeBtn")
 
-const sessionDuration = 24000 // in ms
+const sessionDuration = 150000 // in ms
 const photoDelay = 7 //in sec
 
 
