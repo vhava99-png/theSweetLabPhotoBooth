@@ -1,3 +1,31 @@
+html, body{
+margin:0;
+font-family:'Comic Sans MS',sans-serif;
+background:linear-gradient(135deg,#ff7a18,#ffd700,#4facfe);
+background-size:400% 400%;
+animation:bgmove 12s infinite alternate;
+color:white;
+text-align:center;
+}
+
+@keyframes bgmove{
+0%{background-position:0% 50%;}
+100%{background-position:100% 50%;}
+}
+
+/* SCREEN FIX */
+.screen{
+display:none !important;
+height:100vh;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+}
+
+.screen.active{
+display:flex !important;
+}
+
 /* MAIN LAYOUT */
 
 #main{
@@ -7,8 +35,6 @@ align-items:flex-start;
 gap:30px;
 margin-top:15px;
 }
-
-/* CAMERA BLOCK */
 
 #cameraBlock{
 display:flex;
@@ -32,7 +58,7 @@ border-radius:12px;
 filter:grayscale(100%);
 }
 
-/* COUNTDOWN */
+/* COUNTDOWN (PENTING - DIPERTAHANKAN) */
 
 #countdown{
 position:absolute;
@@ -46,7 +72,7 @@ text-shadow:4px 4px 15px black;
 pointer-events:none;
 }
 
-/* BUTTONS */
+/* BUTTONS (PENTING - DIPERTAHANKAN) */
 
 #controls{
 margin-top:15px;
@@ -87,24 +113,6 @@ font-size:10px;
 text-align:center;
 }
 
-@media print {
-
-body * {
-  visibility: hidden;
-}
-
-#strip, #strip * {
-  visibility: visible;
-}
-
-#strip {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 80mm;
-}
-
-}
 #photos img{
 width:100%;
 margin-bottom:2px;
@@ -117,4 +125,33 @@ margin-bottom:6px;
 
 .receiptFooter{
 margin-top:6px;
+}
+
+/* PRINT FIX FINAL */
+
+@media print{
+
+body *{
+visibility:hidden;
+}
+
+#strip, #strip *{
+visibility:visible;
+}
+
+#strip{
+position:absolute;
+left:0;
+top:0;
+width:80mm;
+margin:0;
+padding:0;
+box-shadow:none;
+}
+
+@page{
+size:80mm auto;
+margin:0;
+}
+
 }
