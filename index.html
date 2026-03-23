@@ -11,14 +11,14 @@
 <!-- START -->
 <div id="startScreen" class="screen active">
   <h2>🍰 The Sweet Lab</h2>
-  <button onclick="goInstruction()">Mulai</button>
+  <button class="startBtn" onclick="goInstruction()">Mulai</button>
 </div>
 
 <!-- INSTRUCTION -->
 <div id="instructionScreen" class="screen">
   <h2>Petunjuk</h2>
   <p>3 foto • Coba lagi 2x • Cetak 1x</p>
-  <button onclick="startSession()">Mulai Foto</button>
+  <button class="startBtn" onclick="startSession()">Mulai Foto</button>
 </div>
   
 <!-- CAMERA -->
@@ -39,7 +39,7 @@
 
 <button class="retakeBtn" onclick="retake()" id="retakeBtn">🔁 Coba Lagi (2)</button>
 <button class="printBtn" onclick="printStrip()">🖨 Cetak</button>
-<button onclick="stopSession()">⛔ Berhenti</button>
+<button class="stopBtn" onclick="stopSession()">⛔ Berhenti</button>
 </div>
 
 </div>
