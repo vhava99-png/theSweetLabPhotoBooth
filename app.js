@@ -73,6 +73,7 @@ if(capturing) return
 
 capturing=true
 isSessionActive=true
+setRandomCaption() 
 strip.innerHTML=""
 
 for(let i=0;i<MAX_PHOTOS;i++){
@@ -125,6 +126,7 @@ return
 
 retakeLeft--
 updateRetakeUI()
+setRandomCaption() 
 startCapture()
 }
 
@@ -135,10 +137,7 @@ retakeBtn.innerText="🔁 Coba Lagi ("+retakeLeft+")"
 // PRINT
 function printStrip(){
 if(!confirm("Sudah puas?")) return
-setRandomCaption()   // 🔥 ini yang bikin random
-setTimeout(()=>{
     window.print()
-  },200)
 }
 
 // STOP (FIXED TOTAL)
