@@ -33,7 +33,7 @@ const captions2 = [
 
 function startSessionTimer(){
   clearInterval(timerInterval)
-  sessionTime = 300 // 5 menit
+  sessionTime = 5 // 5 menit
   updateTimerUI()
   timerInterval = setInterval(()=>{
     sessionTime--
