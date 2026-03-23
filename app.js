@@ -3,9 +3,9 @@ let strip = document.getElementById("photos")
 let counter = document.getElementById("countdown")
 let retakeBtn = document.getElementById("retakeBtn")
 
-let sessionDuration: 150000 // in ms
-let maxRetake: 2
-let photoDelay: 7 //in sec
+let sessionDuration = 150000 // in ms
+let maxRetake = 2
+let photoDelay = 7 //in sec
 
 
 let sessionStartTime = null
