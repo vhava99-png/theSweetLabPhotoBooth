@@ -3,11 +3,10 @@ let strip = document.getElementById("photos")
 let counter = document.getElementById("countdown")
 let retakeBtn = document.getElementById("retakeBtn")
 
-const CONFIG = {
-  sessionDuration: 150000, // in ms
-  maxRetake: 2,
-  photoDelay: 7 //in sec
-}
+let sessionDuration: 150000 // in ms
+let maxRetake: 2
+let photoDelay: 7 //in sec
+
 
 let sessionStartTime = null
 let animationFrame = null
