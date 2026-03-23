@@ -7,6 +7,9 @@ let capturing=false
 let isSessionActive=false
 let retakeLeft=2
 
+let sessionTime = 300
+let timerInterval = null
+
 const MAX_PHOTOS=3
 const captions = [
   "Life is sweeter with you 🍰",
@@ -27,6 +30,51 @@ const captions2 = [
   "Bring your friends next time",
   "Sweet memories start here"
 ]
+
+function startSessionTimer(){
+
+  clearInterval(timerInterval)
+
+  sessionTime = 300 // 5 menit
+
+  updateTimerUI()
+
+  timerInterval = setInterval(()=>{
+
+    sessionTime--
+
+    updateTimerUI()
+
+    if(sessionTime <= 0){
+      clearInterval(timerInterval)
+      alert("Waktu habis")
+      stopSessionForce()
+    }
+
+  },1000)
+
+}
+
+function updateTimerUI(){
+
+  const el = document.getElementById("sessionTimer")
+
+  const min = Math.floor(sessionTime / 60).toString().padStart(2,'0')
+  const sec = (sessionTime % 60).toString().padStart(2,'0')
+  if(sessionTime <= 30){
+  el.style.background = "rgba(231,76,60,0.9)"
+}
+  el.innerText = `${min}:${sec}`
+}
+
+function stopSessionForce(){
+
+  isSessionActive = false
+  capturing = false
+  counter.innerText = ""
+
+  showScreen("startScreen")
+}
 
 function updateDateTime(){
 
@@ -83,9 +131,8 @@ showScreen("cameraScreen")
 startCamera()
 resetSession()
  updateRetakeUI()
-  updateDateTime()
-
-  // 🔥 AUTO START FOTO
+ updateDateTime()
+ startSessionTimer()   // 🔥 TIMER MULAI
   setTimeout(()=>{
     startCapture()
   }, 500) // kasih delay biar camera ready
