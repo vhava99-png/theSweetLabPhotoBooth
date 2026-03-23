@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Photobooth</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div id="qrScreen" class="screen active">
+  <div class="card">
+    <h2>Cara Menggunakan</h2>
+    <p>
+      1. Scan QR dan lakukan pembayaran.<br>
+      2. Tunggu verifikasi.<br>
+      3. Tekan mulai untuk foto.
+    </p>
+    <p><b>Waktu total: 5 menit</b></p>
+
+    <button onclick="fakePayment()">Simulasi Bayar</button>
+  </div>
+</div>
+
+<div id="instructionScreen" class="screen">
+  <div class="card">
+    <h2>Petunjuk</h2>
+    <p>
+      • Ambil 3 foto<br>
+      • Coba lagi max 2x<br>
+      • Cetak hanya 1x
+    </p>
+    <p><b>Apa kamu sudah siap?</b></p>
+    <button onclick="startSession()">Mulai</button>
+  </div>
+</div>
+
+<div id="cameraScreen" class="screen">
+  <video id="video" autoplay playsinline></video>
+  <div id="countdown"></div>
+
+  <button id="stopBtn">Berhenti</button>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

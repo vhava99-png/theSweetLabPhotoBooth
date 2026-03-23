@@ -1,0 +1,47 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: white;
+  text-align: center;
+}
+
+.screen {
+  display: none;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.active {
+  display: flex;
+}
+
+.card {
+  background: #1c1c1c;
+  padding: 30px;
+  border-radius: 20px;
+  width: 80%;
+  max-width: 400px;
+}
+
+button {
+  margin-top: 15px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #ff4d6d;
+  color: white;
+  font-size: 16px;
+}
+
+#countdown {
+  position: absolute;
+  font-size: 120px;
+  font-weight: bold;
+}
+
+video {
+  width: 100%;
+}
