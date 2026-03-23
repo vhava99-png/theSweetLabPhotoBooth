@@ -71,6 +71,7 @@ left:0;
 height:6px;
 background:#2ecc71;
 z-index:9998;
+  box-shadow:0 0 10px currentColor;
 }
 #progressLeft,
 #progressRight{
@@ -80,6 +81,7 @@ top:0;
 width:6px;
 background:#2ecc71;
 z-index:9998;
+  box-shadow:0 0 10px currentColor;
 }
 /* POSISI */
 #progressTop{
