@@ -28,6 +28,28 @@ const captions2 = [
   "Sweet memories start here"
 ]
 
+function updateDateTime(){
+
+  const el = document.getElementById("datetime")
+  if(!el) return
+
+  const now = new Date()
+
+  const months = [
+    "Jan","Feb","Mar","Apr","May","Jun",
+    "Jul","Aug","Sep","Oct","Nov","Dec"
+  ]
+
+  const day = now.getDate()
+  const month = months[now.getMonth()]
+  const year = now.getFullYear()
+
+  const hours = now.getHours().toString().padStart(2,'0')
+  const mins = now.getMinutes().toString().padStart(2,'0')
+
+  el.innerText = `${day} ${month} ${year} | ${hours}:${mins}`
+}
+
 // SCREEN
 function showScreen(id){
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"))
@@ -64,6 +86,7 @@ retakeLeft=2
 updateRetakeUI()
 strip.innerHTML=""
 isSessionActive=false
+updateDateTime()
 }
 
 // CAPTURE
