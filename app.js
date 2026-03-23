@@ -7,7 +7,7 @@ let capturing=false
 let isSessionActive=false
 let retakeLeft=2
 
-let sessionTime = 300
+let sessionTime = 180
 let timerInterval = null
 
 const MAX_PHOTOS=3
@@ -33,7 +33,7 @@ const captions2 = [
 
 function startSessionTimer(){
   clearInterval(timerInterval)
-  sessionTime = 5 // 5 menit
+  sessionTime = 180 // 3 menit
   updateTimerUI()
   timerInterval = setInterval(()=>{
     sessionTime--
