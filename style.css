@@ -13,6 +13,30 @@ text-align:center;
 100%{background-position:100% 50%;}
 }
 
+/* START (HIJAU) */
+.startBtn{
+background:#2ecc71;
+}
+
+/* RETAKE (ORANGE) */
+.retakeBtn{
+background:#f39c12;
+}
+
+/* PRINT (BIRU) */
+.printBtn{
+background:#3498db;
+}
+
+/* STOP (MERAH) */
+.stopBtn{
+background:#e74c3c;
+}
+
+button:active{
+transform:scale(0.95);
+}
+
 /* SCREEN FIX */
 .screen{
 display:none !important;
