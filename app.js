@@ -33,11 +33,12 @@ const captions2 = [
 
 function startSessionTimer(){
   clearInterval(timerInterval)
-  sessionTime = 180 // 3 menit
+  sessionTime = 12 // 3 menit
   updateTimerUI()
   timerInterval = setInterval(()=>{
     sessionTime--
     updateTimerUI()
+    updateProgress() 
     if(sessionTime <= 0){
       clearInterval(timerInterval)
       alert("Waktu habis")
@@ -54,6 +55,52 @@ function updateTimerUI(){
   el.style.background = "rgba(231,76,60,0.9)"
 }
   el.innerText = `${min}:${sec}`
+}
+
+function updateProgress(){
+
+  const total = 12 // total detik
+  const percent = (1 - sessionTime / total) * 100
+
+  const top = document.getElementById("progressTop")
+  const right = document.getElementById("progressRight")
+  const bottom = document.getElementById("progressBottom")
+  const left = document.getElementById("progressLeft")
+
+  // tiap sisi 25%
+  if(percent <= 25){
+    top.style.width = percent * 4 + "%"
+  }
+  else if(percent <= 50){
+    top.style.width = "100%"
+    right.style.height = (percent - 25) * 4 + "%"
+  }
+  else if(percent <= 75){
+    top.style.width = "100%"
+    right.style.height = "100%"
+    bottom.style.width = (percent - 50) * 4 + "%"
+  }
+  else{
+    top.style.width = "100%"
+    right.style.height = "100%"
+    bottom.style.width = "100%"
+    left.style.height = (percent - 75) * 4 + "%"
+  }
+
+  // 🎨 WARNA BERUBAH
+  let color = "#2ecc71" // hijau
+
+  if(percent > 60){
+    color = "#e74c3c" // merah
+  }
+  else if(percent > 30){
+    color = "#f39c12" // kuning/orange
+  }
+
+  top.style.background = color
+  right.style.background = color
+  bottom.style.background = color
+  left.style.background = color
 }
 
 function stopSessionForce(){
@@ -221,6 +268,13 @@ if(!confirm("Yakin berhenti?")) return
 isSessionActive=false
 capturing=false
 counter.innerText=""
+clearInterval(timerInterval)
+sessionTime = 180
+document.getElementById("sessionTimer").innerText = "05:00"
+document.getElementById("progressTop").style.width = "0%"
+document.getElementById("progressRight").style.height = "0%"
+document.getElementById("progressBottom").style.width = "0%"
+document.getElementById("progressLeft").style.height = "0%"
 
 showScreen("startScreen")
 }
