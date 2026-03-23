@@ -7,7 +7,17 @@ animation:bgmove 12s infinite alternate;
 color:white;
 text-align:center;
 }
+body{
+  font-size:1.2em;
+}
 
+button{
+  font-size:1.4em;
+}
+
+h2{
+  font-size:2em;
+}
 @keyframes bgmove{
 0%{background-position:0% 50%;}
 100%{background-position:100% 50%;}
