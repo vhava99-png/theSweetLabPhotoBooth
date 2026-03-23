@@ -3,95 +3,63 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Sweet Lab Photobooth</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=5">
 </head>
 
 <body>
 
-<!-- SCREEN 1 -->
+<!-- START -->
 <div id="startScreen" class="screen active">
-  <div class="card">
-    <h2>🍰 The Sweet Lab</h2>
-    <p>
-      Gratis photobooth dengan pembelian min Rp50.000<br><br>
-      Waktu sesi: 5 menit
-    </p>
-    <button onclick="goInstruction()">Mulai</button>
-  </div>
+  <h2>🍰 The Sweet Lab</h2>
+  <button onclick="goInstruction()">Mulai</button>
 </div>
 
-<!-- SCREEN 2 -->
+<!-- INSTRUCTION -->
 <div id="instructionScreen" class="screen">
-  <div class="card">
-    <h2>Petunjuk</h2>
-    <p>
-      • Ambil 3 foto<br>
-      • Bisa coba lagi 2x<br>
-      • Cetak hanya 1x
-    </p>
-    <p><b>Apa kamu sudah siap?</b></p>
-    <button onclick="startSession()">Mulai Foto</button>
-  </div>
+  <h2>Petunjuk</h2>
+  <p>3 foto • Coba lagi 2x • Cetak 1x</p>
+  <button onclick="startSession()">Mulai Foto</button>
 </div>
 
-<!-- SCREEN 3 -->
+<!-- CAMERA -->
 <div id="cameraScreen" class="screen">
 
- <h2>🍰 The Sweet Lab Photobooth 📸</h2>
+<h2>📸 The Sweet Lab Photobooth</h2>
 
 <div id="main">
 
-  <div id="cameraBlock">
+<div id="cameraBlock">
 
-    <div id="cameraContainer">
-      <video id="video" autoplay playsinline></video>
-      <div id="countdown"></div>
-    </div>
+<div id="cameraContainer">
+<video id="video" autoplay playsinline></video>
+<div id="countdown"></div>
+</div>
 
-    <div id="controls">
-      <button class="startBtn" onclick="startCapture()">📸 Mulai</button>
-      <button class="retakeBtn" onclick="retake()">🔁 Coba Lagi</button>
-      <button class="printBtn" onclick="printStrip()">🖨 Cetak</button>
-      <button onclick="stopSession()">⛔ Berhenti</button>
-    </div>
+<div id="controls">
+<button class="startBtn" onclick="startCapture()">📸 Mulai</button>
+<button class="retakeBtn" onclick="retake()" id="retakeBtn">🔁 Coba Lagi (2)</button>
+<button class="printBtn" onclick="printStrip()">🖨 Cetak</button>
+<button onclick="stopSession()">⛔ Berhenti</button>
+</div>
 
-  </div>
+</div>
 
-  <div id="strip">
+<div id="strip">
 
-    <div class="receiptHeader">
-    -----------------------------<br>
-    <b>THE SWEET LAB</b><br>
-    Sweet Moments Booth<br><br>
+<div class="receiptHeader">
+-----------------------------<br>
+<b>THE SWEET LAB</b><br><br>
+<span id="datetime"></span><br><br>
+</div>
 
-    <span id="datetime"></span>
-    <br><br>
-    </div>
+<div id="photos"></div>
 
-    <div id="photos"></div>
-
-    <div class="receiptFooter">
-
-    <br>
-    -----------------------------<br>
-
-    Items<br>
-    Dessert<br>
-    Friends<br>
-    Happiness<br><br>
-
-    Total: GOOD VIBES<br><br>
-
-    <b id="randomCaption"></b><br><br>
-
-    @thesweetlab<br>
-    Visit Again ❤️<br>
-
-    -----------------------------
-
-    </div>
-
-  </div>
+<div class="receiptFooter">
+<br>-----------------------------<br>
+Sweet Moments<br><br>
+@thesweetlab<br>
+-----------------------------
+</div>
 
 </div>
 
@@ -99,7 +67,6 @@
 
 </div>
 
-<script src="app.js"></script>
-
+<script src="app.js?v=5"></script>
 </body>
 </html>
