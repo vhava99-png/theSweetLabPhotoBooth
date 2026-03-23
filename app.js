@@ -1,124 +1,110 @@
 let video = document.getElementById("video")
-let photosDiv = document.getElementById("photos")
 let countdownEl = document.getElementById("countdown")
+let strip = document.getElementById("strip")
 
 let photos = []
 let retriesLeft = 2
 
-// 🎥 START CAMERA
-navigator.mediaDevices.getUserMedia({video:true})
-.then(stream=>{
-video.srcObject = stream
-})
-
-// 🎲 RANDOM CAPTION
-const captions = [
-"Life is sweeter with you 🍰",
-"Sweet moments, sweet memories",
-"Happiness is homemade",
-"Bite, smile, repeat 😄",
-"Sugar rush incoming!",
-"Dessert first, always",
-"Good vibes & good bites",
-"Made with love 💕",
-"Stay sweet!",
-"Sweet day, sweet life"
-]
-
-function setRandomCaption(){
-const random = captions[Math.floor(Math.random()*captions.length)]
-document.getElementById("randomCaption").innerText = `"${random}"`
+// SCREEN SWITCH
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"))
+  document.getElementById(id).classList.add("active")
 }
 
-// ⏱ COUNTDOWN 7 DETIK
-async function countdown(){
-for(let i=7;i>0;i--){
-countdownEl.innerText = i
-
-if(i<=3){
-beep()
+// NAVIGATION
+function goInstruction(){
+  showScreen("instructionScreen")
 }
 
-await delay(1000)
-}
-countdownEl.innerText=""
-}
-
-// 🔊 BEEP
-function beep(){
-const ctx = new (window.AudioContext||window.webkitAudioContext)()
-const osc = ctx.createOscillator()
-const gain = ctx.createGain()
-
-osc.connect(gain)
-gain.connect(ctx.destination)
-
-osc.frequency.value = 800
-osc.start()
-
-gain.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+0.2)
-osc.stop(ctx.currentTime+0.2)
+function startSession(){
+  showScreen("cameraScreen")
+  startCamera()
 }
 
-// 📸 CAPTURE
+// CAMERA
+async function startCamera(){
+  const stream = await navigator.mediaDevices.getUserMedia({video:true})
+  video.srcObject = stream
+}
+
+// CAPTURE
 async function startCapture(){
 
-photos=[]
-photosDiv.innerHTML=""
+  photos = []
+  strip.innerHTML = ""
 
-for(let i=0;i<3;i++){
+  for(let i=0;i<3;i++){
 
-await countdown()
+    await countdown()
 
-let canvas=document.createElement("canvas")
-canvas.width=video.videoWidth
-canvas.height=video.videoHeight
-canvas.getContext("2d").drawImage(video,0,0)
+    let canvas = document.createElement("canvas")
+    canvas.width = video.videoWidth
+    canvas.height = video.videoHeight
+    canvas.getContext("2d").drawImage(video,0,0)
 
-let img=canvas.toDataURL("image/png")
-photos.push(img)
+    let img = canvas.toDataURL("image/png")
+    photos.push(img)
 
-let image=document.createElement("img")
-image.src=img
-photosDiv.appendChild(image)
-
-await delay(500)
+    let image = document.createElement("img")
+    image.src = img
+    image.style.width = "100%"
+    strip.appendChild(image)
+  }
 }
+
+// COUNTDOWN 7 DETIK
+async function countdown(){
+  for(let i=7;i>0;i--){
+    countdownEl.innerText = i
+
+    if(i<=3){
+      beep()
+    }
+
+    await delay(1000)
+  }
+
+  countdownEl.innerText = ""
 }
 
-// 🔁 RETAKE
+// BEEP
+function beep(){
+  const ctx = new (window.AudioContext||window.webkitAudioContext)()
+  const osc = ctx.createOscillator()
+  osc.connect(ctx.destination)
+  osc.frequency.value = 800
+  osc.start()
+  osc.stop(ctx.currentTime+0.2)
+}
+
+// RETRY
 function retake(){
+  if(retriesLeft<=0){
+    alert("Kesempatan habis")
+    return
+  }
 
-if(retriesLeft<=0){
-alert("Kesempatan habis")
-return
+  retriesLeft--
+  startCapture()
 }
 
-retriesLeft--
-startCapture()
-}
-
-// 🖨 PRINT
+// PRINT
 function printStrip(){
+  const confirmPrint = confirm("Apakah kamu sudah puas dengan hasilnya?")
+  if(!confirmPrint) return
 
-const confirmPrint = confirm("Apakah kamu sudah puas dengan hasilnya?")
-if(!confirmPrint) return
-
-setRandomCaption()
-
-setTimeout(()=>{
-window.print()
-},300)
+  window.print()
 }
 
-// 🕒 TIME
-function updateTime(){
-let now = new Date()
-document.getElementById("datetime").innerText = now.toLocaleString()
+// STOP
+function stopSession(){
+  const c = confirm("Apakah kamu yakin ingin berhenti?")
+  if(c){
+    showScreen("startScreen")
+  }
 }
-setInterval(updateTime,1000)
 
-// ⏳ DELAY
+// DELAY
 function delay(ms){
-return new Promise(res=>setTimeout(res,ms))
+  return new Promise(r=>setTimeout(r,ms))
 }
