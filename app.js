@@ -47,16 +47,6 @@ function runTimer(){
   const elapsed = now - sessionStartTime
   const remaining = sessionDuration - elapsed
 
-  const el = document.getElementById("sessionTimer")
-
-  if(el){
-    const sec = Math.max(0, Math.floor(remaining / 1000))
-    const min = Math.floor(sec / 60).toString().padStart(2,'0')
-    const s = (sec % 60).toString().padStart(2,'0')
-
-    el.innerText = `${min}:${s}`
-  }
-
   updateProgressSmooth(elapsed)
 
   if(remaining <= 0){
@@ -103,7 +93,9 @@ function updateProgressSmooth(elapsed){
     bottom.style.width = "100%"
     left.style.height = ((percent - 75) / 25) * 100 + "%"
   }
-
+if(percent > 90){
+  top.style.opacity = (Math.sin(Date.now()/100) > 0 ? 1 : 0.3)
+}
   // 🎨 WARNA GRADUAL (HIJAU → MERAH)
   const r = Math.floor(46 + (231-46) * (percent/100))
   const g = Math.floor(204 - (204-76) * (percent/100))
@@ -277,14 +269,26 @@ if(!confirm("Sudah puas?")) return
 // STOP (FIXED TOTAL)
 function stopSession(){
 
-if(!confirm("Yakin berhenti?")) return
+  if(!confirm("Yakin berhenti?")) return
 
-isSessionActive=false
-capturing=false
-counter.innerText=""
-cancelAnimationFrame(animationFrame)
+  isSessionActive = false
+  capturing = false
+  counter.innerText = ""
 
-showScreen("startScreen")
+  cancelAnimationFrame(animationFrame)
+
+  resetProgressBar()   
+
+  showScreen("startScreen")
+}
+
+function resetProgressBar(){
+
+  document.getElementById("progressTop").style.width = "0%"
+  document.getElementById("progressRight").style.height = "0%"
+  document.getElementById("progressBottom").style.width = "0%"
+  document.getElementById("progressLeft").style.height = "0%"
+
 }
 
 // COUNTDOWN (STOP SAFE)
