@@ -8,11 +8,38 @@ let isSessionActive=false
 let retakeLeft=2
 
 const MAX_PHOTOS=3
+const captions = [
+  "Life is sweeter with you 🍰",
+  "Sweet moments, sweet memories",
+  "Happiness is homemade",
+  "Bite, smile, repeat 😄",
+  "Sugar rush incoming!",
+  "Dessert first, always",
+  "Good vibes only ✨",
+  "Made with love 💕",
+  "Stay sweet!",
+  "You look amazing today!"
+]
+
+const captions2 = [
+  "Tag us @thesweetlab",
+  "See you again!",
+  "Bring your friends next time",
+  "Sweet memories start here"
+]
 
 // SCREEN
 function showScreen(id){
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"))
 document.getElementById(id).classList.add("active")
+}
+
+function setRandomCaption(){
+  const random = captions[Math.floor(Math.random() * captions.length)]
+  const el = document.getElementById("randomCaption")
+  if(el){
+    el.innerText = `"${random}"`
+  }
 }
 
 function goInstruction(){
@@ -108,7 +135,10 @@ retakeBtn.innerText="🔁 Coba Lagi ("+retakeLeft+")"
 // PRINT
 function printStrip(){
 if(!confirm("Sudah puas?")) return
-window.print()
+setRandomCaption()   // 🔥 ini yang bikin random
+setTimeout(()=>{
+    window.print()
+  },200)
 }
 
 // STOP (FIXED TOTAL)
